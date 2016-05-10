@@ -12,6 +12,8 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 		private int? _hearthstoneBuild;
 		public GameServerInfo ServerInfo;
 		public DateTime EnqueueTime { get; set; }
+		public string ServerIp => ServerAddress.Split(':').FirstOrDefault();
+		public string ServerPort => ServerAddress.Split(':').LastOrDefault();
 
 		public int? HearthstoneBuild
 		{
