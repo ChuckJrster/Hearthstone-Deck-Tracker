@@ -59,6 +59,7 @@ namespace Hearthstone_Deck_Tracker
 
 		public static async void Initialize()
 		{
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 			Config.Load();
 			var splashScreenWindow = new SplashScreenWindow();
 			splashScreenWindow.ShowConditional();
