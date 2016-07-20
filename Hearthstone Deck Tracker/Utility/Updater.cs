@@ -21,7 +21,7 @@ namespace Hearthstone_Deck_Tracker.Utility
 {
 	public static class Updater
 	{
-		private static DateTime _lastUpdateCheck;
+		private static DateTime _lastUpdateCheck = DateTime.Now;
 		private static bool _showingUpdateMessage;
 		private static bool TempUpdateCheckDisabled { get; set; }
 		public static StatusBarHelper StatusBar { get; } = new StatusBarHelper();
@@ -29,14 +29,6 @@ namespace Hearthstone_Deck_Tracker.Utility
 
 		public static async void CheckForUpdates(bool force = false)
 		{
-#if(SQUIRREL)
-			using(var mgr = await UpdateManager.GitHubUpdateManager("https://github.com/Epix37/HDT-Releases", prerelease: Config.Instance.CheckForBetaUpdates))
-			{
-				var release = await mgr.UpdateApp();
-				if(release != null)
-					StatusBar.Visibility = Visibility.Visible;
-			}
-#else
 			if(!force)
 			{
 				if(!Config.Instance.CheckForUpdates || TempUpdateCheckDisabled || Core.Game.IsRunning || _showingUpdateMessage
@@ -44,6 +36,21 @@ namespace Hearthstone_Deck_Tracker.Utility
 					return;
 			}
 			_lastUpdateCheck = DateTime.Now;
+#if(SQUIRREL)
+			try
+			{
+				using(var mgr = await UpdateManager.GitHubUpdateManager("https://github.com/Epix37/HDT-Releases", prerelease: Config.Instance.CheckForBetaUpdates))
+				{
+					var release = await mgr.UpdateApp();
+					if(release != null)
+						StatusBar.Visibility = Visibility.Visible;
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.Error(ex);
+			}
+#else
 			_release = await GetLatestRelease(false);
 			if(_release != null)
 			{
