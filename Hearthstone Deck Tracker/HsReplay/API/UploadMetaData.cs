@@ -26,22 +26,22 @@ namespace Hearthstone_Deck_Tracker.HsReplay.API
 		}
 
 		[ApiField("server_ip")]
-		public string ServerIp => _gameMetaData?.ServerAddress?.Split(':').FirstOrDefault();
+		public string ServerIp => _gameMetaData?.ServerInfo?.Address;
 
 		[ApiField("server_port")]
-		public string ServerPort => _gameMetaData?.ServerAddress?.Split(':').LastOrDefault();
+		public string ServerPort => _gameMetaData?.ServerInfo?.Port.ToString();
 
 		[ApiField("game_id")]
-		public string GameId => _gameMetaData?.GameId;
+		public string GameId => _gameMetaData?.ServerInfo?.GameHandle.ToString();
 
 		[ApiField("client_id")]
-		public string ClientId => _gameMetaData?.ClientId;
+		public string ClientId => _gameMetaData?.ServerInfo?.ClientHandle.ToString();
 
 		[ApiField("reconnecting")]
 		public string Reconnected => _gameMetaData?.Reconnected ?? false ? "true" : null;
 
 		[ApiField("spectate_key")]
-		public string SpectateKey => _gameMetaData?.SpectateKey;
+		public string SpectateKey => _gameMetaData?.ServerInfo?.SpectatorPassword;
 
 		[ApiField("match_start")]
 		public string TimeStamp => _game?.StartTime != DateTime.MinValue ? _game?.StartTime.ToString("o") : null;

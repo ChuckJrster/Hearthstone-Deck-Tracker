@@ -129,7 +129,7 @@ namespace Hearthstone_Deck_Tracker
 				_savedReplay = true;
 				await LogIsComplete();
 				var powerLog = new List<string>();
-				foreach(var stored in _game.StoredPowerLogs.Where(x => x.Item1 == _game.MetaData.GameId))
+				foreach(var stored in _game.StoredPowerLogs.Where(x => x.Item1 == _game.MetaData.ServerInfo.GameHandle))
 					powerLog.AddRange(stored.Item2);
 				powerLog.AddRange(_game.PowerLog);
 
