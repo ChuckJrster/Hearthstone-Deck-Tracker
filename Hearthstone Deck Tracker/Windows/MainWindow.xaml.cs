@@ -849,7 +849,7 @@ namespace Hearthstone_Deck_Tracker.Windows
 		}
 
 		private void MenuItemReplayMyAccount_OnClick(object sender, RoutedEventArgs e)
-			=> Helper.TryOpenUrl("https://hsreplay.net/games/mine");
+			=> Helper.TryOpenUrl("https://hsreplay.net/games/mine/");
 
 		private void MenuItemReplays_OnSubmenuOpened(object sender, RoutedEventArgs e)
 		{
