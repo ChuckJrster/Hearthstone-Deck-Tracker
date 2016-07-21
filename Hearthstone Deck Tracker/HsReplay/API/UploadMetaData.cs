@@ -31,35 +31,44 @@ namespace Hearthstone_Deck_Tracker.HsReplay.API
 		[ApiField("server_port")]
 		public string ServerPort => _gameMetaData?.ServerInfo?.Port.ToString();
 
-		[ApiField("game_id")]
-		public string GameId => _gameMetaData?.ServerInfo?.GameHandle.ToString();
+		[ApiField("game_handle")]
+		public string GameHandle => _gameMetaData?.ServerInfo?.GameHandle.ToString();
 
-		[ApiField("client_id")]
-		public string ClientId => _gameMetaData?.ServerInfo?.ClientHandle.ToString();
+		[ApiField("client_handle")]
+		public string ClientHandle => _gameMetaData?.ServerInfo?.ClientHandle.ToString();
 
 		[ApiField("reconnecting")]
 		public string Reconnected => _gameMetaData?.Reconnected ?? false ? "true" : null;
 
-		[ApiField("spectate_key")]
-		public string SpectateKey => _gameMetaData?.ServerInfo?.SpectatorPassword;
+		[ApiField("resumable")]
+		public string Resumable => _gameMetaData?.ServerInfo?.Resumable.ToString().ToLower();
+
+		[ApiField("spectator_password")]
+		public string SpectatePassword => _gameMetaData?.ServerInfo?.SpectatorPassword;
+
+		[ApiField("aurora_password")]
+		public string AuroraPassword => _gameMetaData?.ServerInfo?.AuroraPassword;
+
+		[ApiField("server_version")]
+		public string ServerVersion => _gameMetaData?.ServerInfo?.Version;
 
 		[ApiField("match_start")]
-		public string TimeStamp => _game?.StartTime != DateTime.MinValue ? _game?.StartTime.ToString("o") : null;
+		public string MatchStart => _game?.StartTime != DateTime.MinValue ? _game?.StartTime.ToString("o") : null;
 
 		[ApiField("build")]
 		public int? HearthstoneBuild => _gameMetaData?.HearthstoneBuild ?? _game?.HearthstoneBuild ?? (_game != null ? BuildDates.GetByDate(_game.StartTime) : null);
 
 		[ApiField("game_type")]
-		public int? BnetGameType => _game != null ? (int)HearthDbConverter.GetGameType(_game.GameMode, _game.Format) : (int?)null;
+		public int? GameType => _game != null ? (int)HearthDbConverter.GetGameType(_game.GameMode, _game.Format) : (int?)null;
 
 		[ApiField("spectator_mode")]
-		public string IsSpectatedGame => _game?.GameMode == GameMode.Spectator ? "true" : null;
+		public string SpectatorMode => _game?.GameMode == GameMode.Spectator ? "true" : null;
 
 		[ApiField("friendly_player")]
 		public int? FriendlyPlayerId => _game?.FriendlyPlayerId > 0 ? _game.FriendlyPlayerId : (_friendlyPlayerId > 0 ? _friendlyPlayerId : null);
 
 		[ApiField("scenario_id")]
-		public int? ScenarioId => _game?.ScenarioId;
+		public int? ScenarioId => _game?.ScenarioId ?? _gameMetaData?.ServerInfo?.Mission;
 
 		[ApiField("player_1")]
 		public Player Player1 { get; set; } = new Player();
